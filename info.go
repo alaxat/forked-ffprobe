@@ -41,3 +41,16 @@ func (info *Info) Duration() (duration time.Duration, err error) {
 	duration = time.Duration(f * float64(time.Second))
 	return
 }
+
+func (info *Info) Title() (string, error) {
+	tags, exist := info.Format["tags"]
+	if !exist {
+		return "", errors.New("no tags key in format")
+	}
+	tagsMap := tags.(map[string]interface{})
+	title, exist := tagsMap["TITLE"]
+	if !exist {
+		return "", errors.New("no tags key in format")
+	}
+	return title.(string), nil
+}
